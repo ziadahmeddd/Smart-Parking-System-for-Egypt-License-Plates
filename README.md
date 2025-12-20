@@ -425,33 +425,15 @@ stats = ledger.get_statistics()
 
 ---
 
-## 📄 License
-
-[Specify your license here]
-
----
-
-## 👥 Authors
-
-- **Your Name** - Initial work and v4.0 improvements
-
----
-
 ## 🙏 Acknowledgments
 
-- YOLOv8 by Ultralytics
+- YOLOv11 by Ultralytics
 - TD3 algorithm by Fujimoto et al.
 - OpenCV community
 - PyTorch team
 
 ---
 
-## 📞 Support
 
-For issues and questions:
-- Open an issue on GitHub
-- Contact: [your-email@example.com]
-
----
 
 **Made with ❤️ for smart cities**
