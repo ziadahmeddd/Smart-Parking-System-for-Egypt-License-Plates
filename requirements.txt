@@ -1,0 +1,35 @@
+# Smart Parking System - Python Dependencies
+# Updated for v4.0 with latest stable versions
+
+# Core Deep Learning
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Computer Vision
+opencv-python>=4.8.0
+ultralytics>=8.0.0
+Pillow>=10.0.0
+
+# OCR & Text Processing
+python-bidi>=0.4.2
+arabic-reshaper>=3.0.0
+
+# Database
+# SQLite is built into Python, no additional package needed
+
+# Utilities
+numpy>=1.24.0
+matplotlib>=3.7.0
+
+# Additional YOLO dependencies
+opencv-contrib-python>=4.8.0
+scipy>=1.10.0
+tqdm>=4.65.0
+
+# Optional but recommended for hardware
+# RPi.GPIO>=0.7.1  # Uncomment if running on Raspberry Pi
+
+# Development Tools (optional)
+# black>=23.0.0  # Code formatter
+# mypy>=1.4.0    # Type checker
+# pytest>=7.4.0  # Testing framework
