@@ -38,7 +38,7 @@ An intelligent parking management system combining computer vision, reinforcemen
 - Python 3.8+
 - PyTorch 1.10+
 - OpenCV 4.5+
-- Ultralytics YOLOv8
+- Ultralytics YOLOv11
 - See `requirements.txt` for complete list
 
 ---
