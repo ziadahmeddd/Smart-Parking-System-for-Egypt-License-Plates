@@ -4,6 +4,7 @@
 [![Paper](https://img.shields.io/badge/DOI-10.1109%2FACIRS55390.2022.9845514-orange)](https://doi.org/10.1109/ACIRS55390.2022.9845514)
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Donate](https://img.shields.io/badge/Donate-Support%20This%20Project-yellow.svg)](https://www.paypal.com/paypalme/YOUR_PAYPAL_USERNAME)
 
 An intelligent parking management system combining **YOLOv11 computer vision**, **TD3 reinforcement learning**, and **blockchain security** for optimal parking allocation with Arabic license plate recognition.
 
@@ -202,13 +203,13 @@ result = agent.select_spot(
 
 ```
 ┌─────────────────────────────────────────┐
-│     Smart Parking System Controller      │
+│     Smart Parking System Controller     │
 ├─────────────────────────────────────────┤
 │  Camera → YOLOv11 → Database → Gates    │
-│             ↓                            │
-│         TD3 Agent → Spot Selection       │
-│             ↓                            │
-│        Blockchain → Security Log         │
+│             ↓                           │
+│         TD3 Agent → Spot Selection      │
+│             ↓                           │
+│        Blockchain → Security Log        │
 └─────────────────────────────────────────┘
 ```
 
@@ -531,6 +532,17 @@ See [CITATIONS.md](CITATIONS.md) for complete references.
 - **Issues**: Open a GitHub issue
 - **Email**: z.ahmed2003@gmail.com
 - **Dataset**: Check [EALPR Repository](https://github.com/ahmedramadan96/EALPR)
+
+---
+
+## 💖 Support This Project
+
+If you find this project helpful, consider supporting its development:
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/paypalme/ziadahmed03)
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-yellow.svg)](https://buymeacoffee.com/ziadahmedd)
+
+Your support helps maintain and improve this project. Thank you! 🙏
 
 ---
 
