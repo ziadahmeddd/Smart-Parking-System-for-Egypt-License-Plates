@@ -4,7 +4,7 @@
 [![Paper](https://img.shields.io/badge/DOI-10.1109%2FACIRS55390.2022.9845514-orange)](https://doi.org/10.1109/ACIRS55390.2022.9845514)
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Donate](https://img.shields.io/badge/Donate-Support%20This%20Project-yellow.svg)](https://www.paypal.com/paypalme/YOUR_PAYPAL_USERNAME)
+[![Donate](https://img.shields.io/badge/Donate-Support%20This%20Project-yellow.svg)](https://www.paypal.com/paypalme/ziadahmed03)
 
 An intelligent parking management system combining **YOLOv11 computer vision**, **TD3 reinforcement learning**, and **blockchain security** for optimal parking allocation with Arabic license plate recognition.
 
