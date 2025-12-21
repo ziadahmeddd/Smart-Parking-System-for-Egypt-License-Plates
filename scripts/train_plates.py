@@ -13,21 +13,29 @@ def main():
     print("=" * 60)
     
     # Auto-detect device (GPU if available, else CPU)
+    # Force CPU if GPU has issues - uncomment line below
+    # device = "cpu"  # Force CPU training
     device = "0" if torch.cuda.is_available() else "cpu"
     print(f"\nUsing device: {device.upper()}")
     if device == "cpu":
         print("Note: Training on CPU will be slower (5-10x)")
+    else:
+        print(f"GPU: {torch.cuda.get_device_name(0)}")
     
     # Load YOLOv11 Nano (fastest for Raspberry Pi)
     model = YOLO("yolo11n.pt") 
     
     # Train
     print("\nStarting training...")
+    # Use smaller batch if GPU has memory issues
+    batch_size = 8 if device != "cpu" else 16  # Smaller batch for GPU stability
+    print(f"Batch size: {batch_size}")
+    
     results = model.train(
         data="dataset/egyptian_plates_detection/data.yaml", 
         epochs=50,      # Increased from 30 for better accuracy
         imgsz=640,      
-        batch=16,
+        batch=batch_size,
         project="SmartParking_Project",
         name="plate_detection_model",
         device=device,  # Auto-detected device

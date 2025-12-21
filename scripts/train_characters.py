@@ -13,21 +13,29 @@ def main():
     print("=" * 60)
     
     # Auto-detect device (GPU if available, else CPU)
+    # Force CPU if GPU has issues - uncomment line below
+    # device = "cpu"  # Force CPU training
     device = "0" if torch.cuda.is_available() else "cpu"
     print(f"\nUsing device: {device.upper()}")
     if device == "cpu":
         print("Note: Training on CPU will be slower (5-10x)")
+    else:
+        print(f"GPU: {torch.cuda.get_device_name(0)}")
     
     # Load a fresh YOLOv11 model
     model = YOLO("yolo11n.pt") 
 
     # Train
     print("\nStarting training...")
+    # Use smaller batch if GPU has memory issues
+    batch_size = 16 if device != "cpu" else 32  # Smaller batch for GPU stability
+    print(f"Batch size: {batch_size}")
+    
     results = model.train(
         data="dataset/egyptian_characters_detection/data.yaml", 
         epochs=100,      # Characters need more training
         imgsz=416,       # Smaller images for character detection
-        batch=32,        # Larger batch for small objects
+        batch=batch_size,
         project="SmartParking_Project",
         name="character_detector",
         device=device,   # Auto-detected device
