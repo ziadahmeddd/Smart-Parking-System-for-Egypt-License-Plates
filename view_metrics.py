@@ -4,7 +4,13 @@ Shows performance metrics for plate detector, character detector, and TD3 agent.
 """
 import json
 import os
+import sys
 from pathlib import Path
+
+# Fix Windows console encoding for emojis
+if sys.platform == 'win32':
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 def load_metrics(filename: str) -> dict:
     """Load metrics from JSON file."""
@@ -20,7 +26,7 @@ def load_metrics(filename: str) -> dict:
 def display_metrics():
     """Display all training metrics in a formatted table."""
     print("\n" + "=" * 70)
-    print("📊 SMART PARKING SYSTEM - MODEL PERFORMANCE METRICS")
+    print("SMART PARKING SYSTEM - MODEL PERFORMANCE METRICS")
     print("=" * 70)
     
     # Load all metrics
@@ -29,7 +35,7 @@ def display_metrics():
     td3_metrics = load_metrics("td3_agent_metrics.json")
     
     # Display Plate Detector Metrics
-    print("\n🚗 LICENSE PLATE DETECTOR (YOLOv11)")
+    print("\n[LICENSE PLATE DETECTOR - YOLOv11]")
     print("-" * 70)
     if plate_metrics:
         print(f"   mAP@0.5 (Detection Accuracy)  : {plate_metrics['mAP@0.5']}")
@@ -55,7 +61,7 @@ def display_metrics():
         print("      python train_plates.py")
     
     # Display Character Detector Metrics
-    print("\n\n📝 CHARACTER RECOGNIZER (YOLOv11)")
+    print("\n\n[CHARACTER RECOGNIZER - YOLOv11]")
     print("-" * 70)
     if char_metrics:
         print(f"   mAP@0.5 (Character Accuracy)  : {char_metrics['mAP@0.5']}")
@@ -82,7 +88,7 @@ def display_metrics():
         print("      python train_characters.py")
     
     # Display TD3 Agent Metrics
-    print("\n\n🧠 TD3 PARKING ALLOCATION AGENT")
+    print("\n\n[TD3 PARKING ALLOCATION AGENT]")
     print("-" * 70)
     if td3_metrics:
         print(f"   Average Reward                : {td3_metrics['average_reward']}/10")
@@ -110,7 +116,7 @@ def display_metrics():
     
     # Overall System Performance
     print("\n\n" + "=" * 70)
-    print("🎯 OVERALL SYSTEM READINESS")
+    print("OVERALL SYSTEM READINESS")
     print("=" * 70)
     
     all_trained = plate_metrics and char_metrics and td3_metrics
@@ -119,7 +125,7 @@ def display_metrics():
         print("   ✅ Plate Detector      : Trained")
         print("   ✅ Character Detector  : Trained")
         print("   ✅ TD3 Agent          : Trained")
-        print("\n   🎉 System is READY for deployment!")
+        print("\n   >> System is READY for deployment!")
         
         # Calculate overall score
         plate_map = float(plate_metrics['mAP@0.5'].replace('%', ''))
@@ -127,16 +133,16 @@ def display_metrics():
         td3_correct = float(td3_metrics['correctness_rate'].replace('%', ''))
         
         overall_score = (plate_map + char_map + td3_correct) / 3
-        print(f"\n   📊 Overall System Score: {overall_score:.1f}%")
+        print(f"\n   Overall System Score: {overall_score:.1f}%")
         
         if overall_score >= 85:
-            print("   🏆 EXCELLENT - Production ready!")
+            print("   >> EXCELLENT - Production ready!")
         elif overall_score >= 75:
-            print("   ✅ GOOD - Ready for testing")
+            print("   >> GOOD - Ready for testing")
         elif overall_score >= 65:
-            print("   ⚠️  FAIR - Consider retraining")
+            print("   >> FAIR - Consider retraining")
         else:
-            print("   ❌ NEEDS IMPROVEMENT - Retrain models")
+            print("   >> NEEDS IMPROVEMENT - Retrain models")
     else:
         missing = []
         if not plate_metrics:

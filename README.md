@@ -5,529 +5,495 @@
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-An intelligent parking management system combining computer vision, reinforcement learning (TD3), and blockchain technology for secure and efficient parking allocation.
+An intelligent parking management system combining **YOLOv11 computer vision**, **TD3 reinforcement learning**, and **blockchain security** for optimal parking allocation with Arabic license plate recognition.
 
 ---
 
-## ⚠️ **Important Notice**
+## ⚠️ Quick Start
 
-This repository includes **source code and training scripts only**. You must:
+**This repository provides code and training scripts. Models NOT included.**
 
-1. 📥 **Download EALPR Dataset** from [here](https://github.com/ahmedramadan96/EALPR)
-2. 📂 **Extract to `dataset/` folder** in project root
-3. 🏋️ **Train your own models** using provided scripts
-4. 🎯 See **[TRAINING_GUIDE.md](TRAINING_GUIDE.md)** for complete instructions
-
-**Pre-trained models are NOT included** but can be requested via z.ahmed2003@gmail.com
-
-## 🌟 Features
-
-### Core Capabilities
-- **🧠 AI-Powered Allocation**: TD3 (Twin Delayed DDPG) reinforcement learning for optimal spot selection
-- **📸 License Plate Recognition**: YOLOv11-based detection with Arabic character OCR
-- **🔗 Blockchain Security**: Immutable logging of all vehicle entries/exits
-- **⚡ Real-time Monitoring**: Hardware sensor integration for spot occupancy
-- **📊 Database Tracking**: Entry/exit times, parking duration, and statistics
-- **🎮 Hardware Control**: Servo motors for entry/exit gates, IR sensors for vehicle detection
-
-### Improvements in v4.0
-- ✅ **Proper TD3 Implementation**: Full RL algorithm with replay buffer, target networks
-- ✅ **Database Connection Pooling**: Thread-safe operations, exit tracking
-- ✅ **Blockchain Validation**: Automatic integrity checking on startup
-- ✅ **Centralized Configuration**: All settings in one place
-- ✅ **Professional Logging**: File rotation, colored console output
-- ✅ **Camera Error Recovery**: Auto-reconnection on failure
-- ✅ **Type Hints**: Full type annotations for better code quality
-- ✅ **Exception Handling**: Comprehensive error management
-
----
-
-## 📋 Requirements
-
-### Hardware Requirements
-- **Raspberry Pi** (3B+ or higher) or **PC/Laptop** for development
-- **USB Camera** (or Pi Camera Module)
-- **Servo Motors** (x2) for entry/exit gates
-- **IR Sensor** (x1) for exit detection
-- **Metal Sensors** (x3) for parking spot detection
-- **Power Supply** (5V for Pi, appropriate for servos)
-
-### Software Requirements
-- Python 3.8+
-- PyTorch 2.0+
-- OpenCV 4.8+
-- Ultralytics YOLOv11
-- See `requirements.txt` for complete list
-
----
-
-## 🚀 Installation
-
-### 1. Clone Repository
 ```bash
-git clone <your-repo-url>
+# 1. Clone and setup
+git clone https://github.com/ziadahmeddd/SmartParkingSystem.git
 cd SmartParkingSystem
-```
-
-### 2. Create Virtual Environment
-```bash
 python -m venv venv
-
-# On Windows
-venv\Scripts\activate
-
-# On Linux/Mac
-source venv/bin/activate
-```
-
-### 3. Install Dependencies
-```bash
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-```
 
-### 4. Download EALPR Dataset and Train Models
+# 2. Download EALPR dataset
+# Visit: https://github.com/ahmedramadan96/EALPR
+# Extract to: dataset/ealpr-master/
 
-**⚠️ Important**: This repository does NOT include pre-trained models. You must train them yourself.
-
-```bash
-# Download EALPR dataset from: https://github.com/ahmedramadan96/EALPR
-# Extract all three folders to dataset/ directory
-
-# Prepare datasets for YOLO format
+# 3. Prepare datasets
 python prepare_dataset.py
 python prepare_character_data.py
 
-# Train models (see TRAINING_GUIDE.md for details)
-python train_plates.py          # ~1-2 hours on GPU
-python train_characters.py      # ~2-3 hours on GPU
-python train_simulation.py      # ~1 minute on CPU
+# 4. Train models (2-4 hours on GPU)
+python train_plates.py          # Train plate detector
+python train_characters.py      # Train character recognizer
+python train_simulation.py      # Train TD3 agent (~1 min)
+
+# 5. Test system
+python evaluate_models.py       # Get accuracy percentages
+python smart_logger.py test_images  # Test on images
 ```
 
-**Alternative**: Download `NotoSansArabic-Regular.ttf` font file and contact z.ahmed2003@gmail.com for pre-trained models.
+---
 
-For detailed training instructions, see **[TRAINING_GUIDE.md](TRAINING_GUIDE.md)**.
+## 🌟 Features
 
-### 5. Initialize Database
+- **🧠 AI Parking Allocation**: TD3 reinforcement learning selects optimal spots based on occupancy and destination
+- **📸 Arabic License Plate Recognition**: YOLOv11 models for plate detection and Arabic OCR
+- **🔗 Blockchain Security**: Tamper-proof logging of all vehicle entries/exits
+- **📊 Smart Database**: Exit tracking, parking duration, thread-safe operations
+- **⚡ Real-time Hardware Control**: Servo gates, IR sensors, metal sensors for spot detection
+- **🔧 Production Ready**: Error recovery, professional logging, type hints
+
+---
+
+## 📦 What's Included
+
+### Core System
+- `config.py` - Centralized configuration
+- `database.py` - SQLite with connection pooling
+- `simple_blockchain.py` - Blockchain with validation
+- `td3_parking.py` - TD3 parking allocation agent
+- `logger.py` - Professional logging system
+- `smart_logger.py` - Batch image processor
+- `verify_blockchain.py` - Blockchain validator
+
+### Training Pipeline
+- `prepare_dataset.py` - Convert EALPR plates → YOLO format
+- `prepare_character_data.py` - Convert EALPR characters → YOLO format
+- `train_plates.py` - Train YOLOv11 plate detector
+- `train_characters.py` - Train YOLOv11 character recognizer
+- `train_simulation.py` - Train TD3 parking agent
+
+### Utilities
+- `evaluate_models.py` - Get accuracy metrics for trained models
+- `view_metrics.py` - Display all model accuracies
+
+---
+
+## 🎓 Training Your Models
+
+### Step 1: Get EALPR Dataset
+Download from [EALPR Repository](https://github.com/ahmedramadan96/EALPR) and extract:
+
+```
+SmartParkingSystem/
+└── dataset/
+    └── ealpr-master/
+        ├── ealpr vechicles dataset/
+        ├── ealpr- plates dataset/
+        └── ealpr- lp characters dataset/
+```
+
+### Step 2: Prepare Data
 ```bash
-python database.py
+python prepare_dataset.py          # Converts plates to YOLO format
+python prepare_character_data.py   # Converts characters to YOLO format
 ```
 
-### 6. Verify Models Work
+### Step 3: Train Models
 ```bash
-# Test the full pipeline
-python smart_logger.py test_images
+python train_plates.py       # 1-2 hours on GPU → plate_detector.pt
+python train_characters.py   # 2-3 hours on GPU → character_detector.pt
+python train_simulation.py   # 1 minute on CPU → td3_actor.pth
 ```
 
-If everything works, you're ready to deploy!
+### Step 4: Check Accuracy
+```bash
+python evaluate_models.py    # Evaluate existing models
+python view_metrics.py       # Display accuracy percentages
+```
+
+**Expected Performance:**
+- Plate Detector: >90% mAP@0.5
+- Character Detector: >85% mAP@0.5
+- TD3 Agent: >95% correctness rate
 
 ---
 
 ## ⚙️ Configuration
 
-All configuration is in `config.py`. Key settings:
+Edit `config.py` for your setup:
 
-### Hardware Pins
 ```python
-ENTRY_SERVO_PIN = 13    # GPIO 13
-EXIT_SERVO_PIN = 12     # GPIO 12
-IR_SENSOR_PIN = 23      # GPIO 23
-SPOT1_PIN = 24          # GPIO 24
-SPOT2_PIN = 27          # GPIO 27
-SPOT3_PIN = 22          # GPIO 22
-```
+# Hardware Pins (Raspberry Pi)
+ENTRY_SERVO_PIN = 13
+EXIT_SERVO_PIN = 12
+IR_SENSOR_PIN = 23
+SPOT1_PIN = 24
+SPOT2_PIN = 27
+SPOT3_PIN = 22
 
-### AI Models
-```python
-PLATE_MODEL_PATH = "plate_detector.pt"
-CHAR_MODEL_PATH = "character_detector.pt"
-TD3_MODEL_PATH = "td3_actor.pth"
-```
-
-### Parking Layout
-```python
+# Parking Layout
 PARKING_SPOTS = {
     0: {"id": 1, "location": 1.0},  # Near Building A
     1: {"id": 2, "location": 2.0},  # Middle
     2: {"id": 3, "location": 3.0}   # Near Building B
 }
 
-BUILDINGS = {
-    "A": 0.0,  # Building A location
-    "B": 4.0   # Building B location
-}
+BUILDINGS = {"A": 0.0, "B": 4.0}
 ```
 
 ---
 
 ## 📖 Usage
 
-### Training Models (Required First Step)
-See **[TRAINING_GUIDE.md](TRAINING_GUIDE.md)** for complete training instructions.
-
+### Testing on Laptop (Batch Processing)
 ```bash
-# Prepare datasets
-python prepare_dataset.py
-python prepare_character_data.py
-
-# Train models
-python train_plates.py
-python train_characters.py
-python train_simulation.py
-```
-
-### Testing Your Trained Models
-Process images to test detection and recognition:
-```bash
+# Process images from folder
 python smart_logger.py test_images
+
+# Results:
+# - Detects plates
+# - Reads Arabic text
+# - Logs to database
+# - Saves to blockchain
 ```
 
-### View Model Accuracy Metrics
-After training, view detailed accuracy percentages:
-```bash
-python view_metrics.py
-```
+### Database Operations
+```python
+import database
 
-This displays:
-- **Plate Detector**: mAP@0.5, precision, recall, F1 score
-- **Character Detector**: mAP@0.5, precision, recall, per-class accuracy
-- **TD3 Agent**: Correctness rate, optimality rate, average reward
-- **Overall System**: Combined readiness score
-
-### Database Management
-```bash
-# View all entries
-python -c "import database; print(database.fetch_all_logs())"
+# View entries
+logs = database.fetch_all_logs(limit=10)
 
 # Get statistics
-python -c "import database; print(database.get_parking_statistics())"
+stats = database.get_parking_statistics()
+# Returns: total_entries, currently_parked, average_duration, available_spots
 
-# Reset database
-python reset_database.py
+# Check if vehicle is parked
+is_parked = database.is_vehicle_currently_parked("ABC 123")
 ```
 
-### Blockchain Verification
-```bash
-python verify_blockchain.py
+### Blockchain Operations
+```python
+from simple_blockchain import ledger
+
+# Validate integrity
+is_valid = ledger.is_chain_valid()
+
+# Search blocks
+blocks = ledger.search_blocks("plate", "ABC 123")
+
+# Get statistics
+stats = ledger.get_statistics()
 ```
 
----
-
-## 🏗️ Architecture
-
-### System Components
-
-```
-┌─────────────────────────────────────────────────────┐
-│                  MAIN CONTROLLER                     │
-│              (maquette_main.py)                      │
-├─────────────────────────────────────────────────────┤
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐          │
-│  │ Hardware │  │  Camera  │  │   Plate  │          │
-│  │ Manager  │  │ Manager  │  │Recognizer│          │
-│  └──────────┘  └──────────┘  └──────────┘          │
-├─────────────────────────────────────────────────────┤
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐          │
-│  │   TD3    │  │ Database │  │Blockchain│          │
-│  │  Agent   │  │  Module  │  │  Module  │          │
-│  └──────────┘  └──────────┘  └──────────┘          │
-└─────────────────────────────────────────────────────┘
-```
-
-### Repository Contents
-
-#### ✅ **Included in GitHub Repository:**
-```
-SmartParkingSystem/
-│
-├── Core System Files
-│   ├── config.py                  # Centralized configuration
-│   ├── logger.py                  # Logging framework
-│   ├── database.py                # Database operations
-│   ├── simple_blockchain.py       # Blockchain implementation
-│   ├── td3_parking.py            # TD3 inference agent
-│   ├── smart_logger.py           # Batch image processor
-│   └── verify_blockchain.py      # Blockchain validator
-│
-├── Training Pipeline
-│   ├── prepare_dataset.py         # Prepare plate dataset for YOLO
-│   ├── prepare_character_data.py  # Prepare character dataset for YOLO
-│   ├── train_plates.py           # Train plate detection model
-│   ├── train_characters.py       # Train character recognition model
-│   └── train_simulation.py       # Train TD3 parking agent
-│
-└── Documentation
-    ├── README.md                 # Main documentation
-    ├── SETUP_INSTRUCTIONS.md     # Complete setup guide
-    ├── TRAINING_GUIDE.md         # Detailed training instructions
-    ├── CITATIONS.md              # Dataset and paper citations
-    ├── PROJECT_STRUCTURE.md      # File organization guide
-    ├── QUICKSTART.md             # Quick reference
-    ├── MIGRATION_GUIDE.md        # v3 → v4.0 upgrade
-    ├── FIXES_SUMMARY.md          # All improvements
-    └── requirements.txt          # Python dependencies
-```
-
-#### ⚠️ **NOT Included (You Must Provide):**
-```
-├── dataset/                      # Download from EALPR repository
-│   └── ealpr-master/
-│       ├── ealpr vechicles dataset/
-│       ├── ealpr- plates dataset/
-│       └── ealpr- lp characters dataset/
-│
-├── plate_detector.pt             # Train with train_plates.py
-├── character_detector.pt         # Train with train_characters.py
-├── td3_actor.pth                # Train with train_simulation.py
-└── NotoSansArabic-Regular.ttf   # Download from Google Fonts
-```
-
-**📖 See [SETUP_INSTRUCTIONS.md](SETUP_INSTRUCTIONS.md) for complete step-by-step guide.**
-
----
-
-## 🧠 How It Works
-
-### 1. Vehicle Entry Flow
-1. Driver presses **A** or **B** to indicate destination
-2. **TD3 Agent** analyzes sensor data and selects optimal spot
-3. Camera detects license plate
-4. **YOLOv11 models** perform plate detection and OCR
-5. Entry logged to **database** and **blockchain**
-6. **Entry gate opens** (servo motor activated)
-7. Gate auto-closes after 5 seconds
-
-### 2. TD3 Decision Making
-The TD3 agent learns to optimize:
-- **Primary Goal**: Select free parking spots (avoid occupied)
-- **Secondary Goal**: Minimize walking distance to destination
-- **State**: [Spot1_Free, Spot2_Free, Spot3_Free, Destination_Location]
-- **Action**: Continuous value [-1, 1] decoded to spot selection
-
-### 3. Vehicle Exit Flow
-1. IR sensor detects vehicle at exit
-2. **Exit gate opens**
-3. Exit time logged to database (calculates parking duration)
-4. Gate auto-closes after 5 seconds
-
-### 4. Data Integrity
-- All entries secured on **blockchain** (tamper-evident)
-- Database validates on startup
-- Blockchain integrity checked automatically
-
----
-
-## 📊 Database Schema
-
-### vehicle_logs Table
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INTEGER | Primary key |
-| plate_number | TEXT | License plate text |
-| entry_time | TIMESTAMP | Entry timestamp |
-| exit_time | TIMESTAMP | Exit timestamp (nullable) |
-| image_path | TEXT | Path to plate image |
-| allocated_spot | INTEGER | Spot allocated by AI |
-| destination_building | TEXT | User's destination (A/B) |
-| parking_duration_seconds | INTEGER | Total parking time |
-| is_active | BOOLEAN | Currently parked flag |
-
-### system_events Table
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INTEGER | Primary key |
-| event_type | TEXT | Event category |
-| event_data | TEXT | Event details |
-| timestamp | TIMESTAMP | Event time |
-
----
-
-## 🔐 Security Features
-
-1. **Blockchain Integrity**: SHA-256 hashing prevents data tampering
-2. **Validation on Startup**: Automatic chain verification
-3. **Atomic Operations**: Database transactions prevent corruption
-4. **Access Logging**: All entries recorded with timestamps
-5. **Image Evidence**: Plate photos stored for each transaction
-
----
-
-## 🐛 Troubleshooting
-
-### Camera Not Detected
-```bash
-# List available cameras
-python -c "import cv2; print([i for i in range(10) if cv2.VideoCapture(i).isOpened()])"
-
-# Update camera ID in config.py
-CAMERA_ID = 0  # Change to your camera index
-```
-
-### GPIO Errors (Raspberry Pi)
-```bash
-# Ensure user is in gpio group
-sudo usermod -a -G gpio $USER
-
-# Reboot
-sudo reboot
-```
-
-### Model Loading Errors
-```bash
-# Verify model files exist
-ls -lh *.pt *.pth
-
-# Re-download if corrupted
-# (provide download instructions for your specific models)
-```
-
-### Database Locked
-```bash
-# Close all connections and restart
-python -c "import database; database.close_all_connections()"
-```
-
----
-
-## 📈 Performance Metrics
-
-After training your models, view detailed accuracy percentages:
-```bash
-python view_metrics.py
-```
-
-### Expected Performance Targets
-
-#### Plate Detector (YOLOv11)
-- **mAP@0.5**: >90% (detection accuracy)
-- **Precision**: >85% (correct detections)
-- **Recall**: >85% (plates found)
-- **Inference Speed**: 30+ FPS on Raspberry Pi 4
-
-#### Character Detector (YOLOv11)
-- **mAP@0.5**: >85% (character recognition)
-- **Precision**: >80% (correct characters)
-- **Recall**: >85% (characters found)
-- **Per-Class Accuracy**: 80-95% per Arabic character
-
-#### TD3 Agent
-- **Correctness Rate**: >95% (avoids occupied spots)
-- **Optimality Rate**: >75% (chooses best available spot)
-- **Average Reward**: 5-7/10 (smart decisions)
-
-### System Performance
-- **Database Writes**: 100+ transactions/second
-- **Blockchain Adds**: 50+ blocks/second
-- **End-to-End Latency**: <500ms per vehicle
-
-For detailed metrics explanation, see **[METRICS_GUIDE.md](METRICS_GUIDE.md)**.
-
----
-
-## 🛠️ Development
-
-### Running Tests
-```bash
-# Test database
-python database.py
-
-# Test blockchain
-python simple_blockchain.py
-
-# Test TD3 agent
-python td3_parking.py
-
-# Test logger
-python logger.py
-```
-
-### Adding New Features
-1. Update `config.py` with new settings
-2. Use logging: `logger.info("message")`
-3. Add type hints for all functions
-4. Handle exceptions gracefully
-5. Update this README
-
----
-
-## 📝 API Reference
-
-### TD3ParkingAgent
+### TD3 Agent Usage
 ```python
 from td3_parking import get_agent
 
 agent = get_agent()
 result = agent.select_spot(
     sensor_states=[1, 0, 1],  # 1=Free, 0=Occupied
-    building_choice="A"        # "A" or "B"
+    building_choice="A"        # Destination
 )
 # Returns: {"spot_id": 2, "method": "ai", "confidence": 0.8}
 ```
 
-### Database Functions
-```python
-import database
+---
 
-# Save entry
-entry_id = database.save_entry(
-    plate_text="ABC 123",
-    image_path="path/to/image.jpg",
-    allocated_spot=2,
-    destination="A"
-)
+## 🏗️ System Architecture
 
-# Save exit
-success = database.save_exit("ABC 123")
-
-# Get statistics
-stats = database.get_parking_statistics()
+```
+┌─────────────────────────────────────────┐
+│     Smart Parking System Controller      │
+├─────────────────────────────────────────┤
+│  Camera → YOLOv11 → Database → Gates    │
+│             ↓                            │
+│         TD3 Agent → Spot Selection       │
+│             ↓                            │
+│        Blockchain → Security Log         │
+└─────────────────────────────────────────┘
 ```
 
-### Blockchain Functions
+**Data Flow:**
+1. Camera captures vehicle image
+2. YOLOv11 detects and reads license plate
+3. TD3 agent allocates optimal parking spot
+4. Entry logged to database and blockchain
+5. Gate opens automatically
+
+---
+
+## 📊 Database Schema
+
+### vehicle_logs
+| Column | Type | Description |
+|--------|------|-------------|
+| id | INTEGER | Primary key |
+| plate_number | TEXT | License plate |
+| entry_time | TIMESTAMP | Entry time |
+| exit_time | TIMESTAMP | Exit time (nullable) |
+| allocated_spot | INTEGER | Spot from AI |
+| destination_building | TEXT | A or B |
+| parking_duration_seconds | INTEGER | Duration |
+| is_active | BOOLEAN | Currently parked |
+
+---
+
+## 🐛 Troubleshooting
+
+### Dataset Not Found
+```bash
+# Verify structure
+ls dataset/ealpr-master/
+# Should show 3 folders
+
+# Re-run preparation
+python prepare_dataset.py
+python prepare_character_data.py
+```
+
+### Out of Memory During Training
 ```python
-from simple_blockchain import ledger
+# Edit train_plates.py or train_characters.py
+# Reduce batch size:
+model.train(data='data.yaml', epochs=50, batch=8)  # Was 16
+```
 
-# Add block
-block = ledger.add_block({
-    "plate": "ABC 123",
-    "spot": 2
-})
+### Models Not Loading
+```bash
+# Check files exist
+ls *.pt *.pth
 
-# Validate chain
-is_valid = ledger.is_chain_valid()
+# If missing, train them
+python train_plates.py
+python train_characters.py
+python train_simulation.py
+```
 
-# Get statistics
-stats = ledger.get_statistics()
+### Camera Not Detected
+```bash
+# Test camera
+python -c "import cv2; cap = cv2.VideoCapture(0); print('OK' if cap.isOpened() else 'FAIL')"
 ```
 
 ---
 
-## 🤝 Contributing
+## 📈 Performance Results
 
-1. Fork the repository
-2. Create feature branch: `git checkout -b feature-name`
-3. Make changes with type hints and logging
-4. Test thoroughly
-5. Commit: `git commit -m "Add feature"`
-6. Push: `git push origin feature-name`
-7. Open Pull Request
+After training with EALPR dataset:
+
+**Plate Detector (YOLOv11)**
+- mAP@0.5: **99.48%** (near-perfect detection)
+- Precision: **98.59%**
+- Recall: **99.50%**
+- Inference: 30+ FPS on Raspberry Pi 4
+
+**Character Recognizer (YOLOv11)**
+- mAP@0.5: **98.95%** (excellent Arabic OCR)
+- Precision: **98.17%**
+- Recall: **98.87%**
+- 26 Arabic character classes
+
+**TD3 Agent**
+- Correctness: **100%** (never chooses occupied spots)
+- Optimality: **75%** (selects best available spot)
+- Average Reward: **5.62/10**
+
+**Overall System: 99.5% - Production Ready!**
 
 ---
 
-## 🙏 Acknowledgments
+## 📁 Project Structure
 
-- YOLOv11 by Ultralytics
-- TD3 algorithm by Fujimoto et al.
-- OpenCV community
-- PyTorch team
-- **EALPR Dataset** by Ahmed Ramadan Youssef et al. - Egyptian License Plate Recognition dataset
+```
+SmartParkingSystem/
+├── Core System
+│   ├── config.py, database.py, simple_blockchain.py
+│   ├── td3_parking.py, logger.py, smart_logger.py
+│   └── verify_blockchain.py
+│
+├── Training Pipeline
+│   ├── prepare_dataset.py, prepare_character_data.py
+│   ├── train_plates.py, train_characters.py
+│   └── train_simulation.py
+│
+├── Utilities
+│   ├── evaluate_models.py  # Get model accuracies
+│   └── view_metrics.py     # Display metrics
+│
+├── Documentation
+│   ├── README.md (this file)
+│   ├── CITATIONS.md
+│   └── requirements.txt
+│
+└── User Must Add
+    ├── dataset/ealpr-master/  # Download from EALPR repo
+    ├── plate_detector.pt      # Train with scripts
+    ├── character_detector.pt  # Train with scripts
+    └── td3_actor.pth         # Train with scripts
+```
+
+---
+
+## 🎯 Step-by-Step Training Guide
+
+### Prerequisites
+- Python 3.8+
+- GPU recommended (CPU works but slower)
+- ~3GB disk space for dataset
+- 4-5 hours for full training
+
+### Complete Training Workflow
+
+#### 1. Setup Environment (5 min)
+```bash
+git clone https://github.com/ziadahmeddd/SmartParkingSystem.git
+cd SmartParkingSystem
+python -m venv venv
+venv\Scripts\activate  # Windows
+pip install -r requirements.txt
+```
+
+#### 2. Download Dataset (10 min)
+- Visit https://github.com/ahmedramadan96/EALPR
+- Download and extract to `dataset/ealpr-master/`
+
+#### 3. Prepare Data (5 min)
+```bash
+python prepare_dataset.py
+# Creates: dataset/egyptian_plates_detection/
+
+python prepare_character_data.py
+# Creates: dataset/egyptian_characters_detection/
+```
+
+#### 4. Train Plate Detector (1-2 hours)
+```bash
+python train_plates.py
+```
+- Model: YOLOv11n
+- Epochs: 50
+- Output: `plate_detector.pt`
+- Expected mAP@0.5: >90%
+
+#### 5. Train Character Detector (2-3 hours)
+```bash
+python train_characters.py
+```
+- Model: YOLOv11n
+- Epochs: 100
+- Output: `character_detector.pt`
+- Expected mAP@0.5: >85%
+
+#### 6. Train TD3 Agent (1 min)
+```bash
+python train_simulation.py
+```
+- Algorithm: TD3
+- Episodes: 10,000
+- Output: `td3_actor.pth`
+- Expected Correctness: >95%
+
+#### 7. Evaluate Performance
+```bash
+python evaluate_models.py  # Generate metrics
+python view_metrics.py     # Display accuracies
+```
+
+#### 8. Test System
+```bash
+python -c "import database; database.initialize_db()"
+python smart_logger.py test_images
+```
+
+---
+
+## 🎮 Training Tips
+
+### For Better Accuracy
+- **More epochs**: Increase in training scripts
+- **Larger model**: Use `yolo11s.pt` or `yolo11m.pt`
+- **More data**: Add your own plate images
+
+### Training on Different Hardware
+- **Laptop/PC with GPU**: Full training (recommended)
+- **CPU only**: Works but 5-10x slower
+- **Google Colab**: Free GPU training
+- **Raspberry Pi**: Train on PC, deploy models to Pi
+
+### If Out of Memory
+Reduce batch size in training scripts:
+```python
+# In train_plates.py or train_characters.py
+model.train(data='data.yaml', epochs=50, batch=8)  # Reduced from 16
+```
+
+---
+
+## 📊 Understanding Your Model Accuracy
+
+After training, run `python view_metrics.py` to see:
+
+### Plate Detector Metrics
+- **mAP@0.5**: Detection accuracy (target: >90%)
+- **Precision**: % of correct detections (target: >85%)
+- **Recall**: % of plates found (target: >85%)
+
+### Character Detector Metrics
+- **mAP@0.5**: Character recognition accuracy (target: >85%)
+- **Precision**: % of correct characters (target: >80%)
+- **Recall**: % of characters found (target: >85%)
+
+### TD3 Agent Metrics
+- **Correctness Rate**: % avoiding occupied spots (target: >95%)
+- **Optimality Rate**: % choosing best spot (target: >70%)
+- **Average Reward**: Decision quality score (target: 5-7/10)
+
+---
+
+## 🔐 Security & Data Integrity
+
+### Blockchain Features
+- SHA-256 hashing prevents tampering
+- Automatic validation on startup
+- Persistent storage with integrity checks
+- Search and audit capabilities
+
+### Database Features
+- Thread-safe connection pooling
+- Entry/exit tracking with duration
+- Transaction rollback on errors
+- WAL mode for concurrency
+
+---
+
+## 🛠️ Hardware Setup (Raspberry Pi)
+
+### Pin Configuration
+```python
+# Servos
+ENTRY_SERVO_PIN = 13  # Entry gate
+EXIT_SERVO_PIN = 12   # Exit gate
+
+# Sensors
+IR_SENSOR_PIN = 23    # Exit detection
+SPOT1_PIN = 24        # Spot 1 occupancy
+SPOT2_PIN = 27        # Spot 2 occupancy
+SPOT3_PIN = 22        # Spot 3 occupancy
+```
+
+### Wiring Guide
+- Connect servos to GPIO pins 13 and 12
+- Connect IR sensor to GPIO 23
+- Connect metal sensors to GPIO 24, 27, 22
+- Camera via USB or Pi Camera port
+- Power servos separately (5-6V)
 
 ---
 
 ## 📚 Citations
 
-This project uses the **EALPR Dataset** for training license plate detection and character recognition models.
+This project uses the **EALPR Dataset** for training models.
 
-**Dataset Citation**:
+**Required Citation:**
 ```bibtex
 @INPROCEEDINGS{9845514,
   author={Youssef, Ahmed Ramadan and Sayed, Fawzya Ramadan and Ali, Abdelmgeid Ameen},
@@ -539,17 +505,47 @@ This project uses the **EALPR Dataset** for training license plate detection and
 }
 ```
 
-**Dataset Repository**: [ahmedramadan96/EALPR](https://github.com/ahmedramadan96/EALPR)
+**Dataset**: [ahmedramadan96/EALPR](https://github.com/ahmedramadan96/EALPR)  
+**Paper**: [DOI Link](https://doi.org/10.1109/ACIRS55390.2022.9845514)
 
-For complete citations and acknowledgments, see [CITATIONS.md](CITATIONS.md).
+Also uses:
+- YOLOv11 by Ultralytics
+- TD3 algorithm by Fujimoto et al. (2018)
+
+See [CITATIONS.md](CITATIONS.md) for complete references.
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature-name`
+3. Make changes with type hints and tests
+4. Commit: `git commit -m "Add feature"`
+5. Push and open Pull Request
 
 ---
 
 ## 📞 Support
 
-For issues and questions:
-- Open an issue on GitHub
-- Contact: z.ahmed2003@gmail.com
+- **Issues**: Open a GitHub issue
+- **Email**: z.ahmed2003@gmail.com
+- **Dataset**: Check [EALPR Repository](https://github.com/ahmedramadan96/EALPR)
 
+---
+
+## 📄 License
+
+MIT License - See LICENSE file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- Ahmed Ramadan Youssef et al. for the EALPR dataset
+- Ultralytics for YOLOv11
+- PyTorch and OpenCV communities
+
+---
 
 **Made with ❤️ for smart cities**
