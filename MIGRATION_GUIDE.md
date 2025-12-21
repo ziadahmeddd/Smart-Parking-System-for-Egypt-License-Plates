@@ -351,6 +351,7 @@ After migration:
 - Check `README.md` for detailed documentation
 - Review log files: `parking_system.log`
 - Test individual components before running full system
+- Contact: z.ahmed2003@gmail.com
 - Open an issue on GitHub if problems persist
 
 ---

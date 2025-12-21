@@ -1,12 +1,30 @@
 # 🚗 Smart Parking System v4.0
 
+[![Dataset](https://img.shields.io/badge/Dataset-EALPR-blue)](https://github.com/ahmedramadan96/EALPR)
+[![Paper](https://img.shields.io/badge/DOI-10.1109%2FACIRS55390.2022.9845514-orange)](https://doi.org/10.1109/ACIRS55390.2022.9845514)
+[![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
 An intelligent parking management system combining computer vision, reinforcement learning (TD3), and blockchain technology for secure and efficient parking allocation.
+
+---
+
+## ⚠️ **Important Notice**
+
+This repository includes **source code and training scripts only**. You must:
+
+1. 📥 **Download EALPR Dataset** from [here](https://github.com/ahmedramadan96/EALPR)
+2. 📂 **Extract to `dataset/` folder** in project root
+3. 🏋️ **Train your own models** using provided scripts
+4. 🎯 See **[TRAINING_GUIDE.md](TRAINING_GUIDE.md)** for complete instructions
+
+**Pre-trained models are NOT included** but can be requested via z.ahmed2003@gmail.com
 
 ## 🌟 Features
 
 ### Core Capabilities
 - **🧠 AI-Powered Allocation**: TD3 (Twin Delayed DDPG) reinforcement learning for optimal spot selection
-- **📸 License Plate Recognition**: YOLO-based detection with Arabic character OCR
+- **📸 License Plate Recognition**: YOLOv11-based detection with Arabic character OCR
 - **🔗 Blockchain Security**: Immutable logging of all vehicle entries/exits
 - **⚡ Real-time Monitoring**: Hardware sensor integration for spot occupancy
 - **📊 Database Tracking**: Entry/exit times, parking duration, and statistics
@@ -36,8 +54,8 @@ An intelligent parking management system combining computer vision, reinforcemen
 
 ### Software Requirements
 - Python 3.8+
-- PyTorch 1.10+
-- OpenCV 4.5+
+- PyTorch 2.0+
+- OpenCV 4.8+
 - Ultralytics YOLOv11
 - See `requirements.txt` for complete list
 
@@ -67,21 +85,40 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Download Pre-trained Models
-- Place `plate_detector.pt` in project root
-- Place `character_detector.pt` in project root
-- Download `NotoSansArabic-Regular.ttf` font file
+### 4. Download EALPR Dataset and Train Models
+
+**⚠️ Important**: This repository does NOT include pre-trained models. You must train them yourself.
+
+```bash
+# Download EALPR dataset from: https://github.com/ahmedramadan96/EALPR
+# Extract all three folders to dataset/ directory
+
+# Prepare datasets for YOLO format
+python prepare_dataset.py
+python prepare_character_data.py
+
+# Train models (see TRAINING_GUIDE.md for details)
+python train_plates.py          # ~1-2 hours on GPU
+python train_characters.py      # ~2-3 hours on GPU
+python train_simulation.py      # ~1 minute on CPU
+```
+
+**Alternative**: Download `NotoSansArabic-Regular.ttf` font file and contact z.ahmed2003@gmail.com for pre-trained models.
+
+For detailed training instructions, see **[TRAINING_GUIDE.md](TRAINING_GUIDE.md)**.
 
 ### 5. Initialize Database
 ```bash
 python database.py
 ```
 
-### 6. (Optional) Train TD3 Agent
+### 6. Verify Models Work
 ```bash
-python train_simulation.py
+# Test the full pipeline
+python smart_logger.py test_images
 ```
-This creates `td3_actor.pth` with trained weights.
+
+If everything works, you're ready to deploy!
 
 ---
 
@@ -124,26 +161,24 @@ BUILDINGS = {
 
 ## 📖 Usage
 
-### Running Main System
+### Training Models (Required First Step)
+See **[TRAINING_GUIDE.md](TRAINING_GUIDE.md)** for complete training instructions.
+
 ```bash
-python maquette_main.py
+# Prepare datasets
+python prepare_dataset.py
+python prepare_character_data.py
+
+# Train models
+python train_plates.py
+python train_characters.py
+python train_simulation.py
 ```
 
-**Controls:**
-- Press **A** - Request parking near Building A
-- Press **B** - Request parking near Building B
-- Press **Q** - Quit application
-
-### Batch Image Processing
-Process multiple images from a folder:
+### Testing Your Trained Models
+Process images to test detection and recognition:
 ```bash
 python smart_logger.py test_images
-```
-
-### Training TD3 Agent
-Train the parking allocation AI:
-```bash
-python train_simulation.py
 ```
 
 ### Database Management
@@ -186,33 +221,55 @@ python verify_blockchain.py
 └─────────────────────────────────────────────────────┘
 ```
 
-### File Structure
+### Repository Contents
+
+#### ✅ **Included in GitHub Repository:**
 ```
 SmartParkingSystem/
-├── config.py                  # Centralized configuration
-├── logger.py                  # Logging framework
-├── database.py                # Database operations
-├── simple_blockchain.py       # Blockchain implementation
-├── td3_parking.py            # TD3 inference agent
-├── train_simulation.py       # TD3 training
-├── maquette_main.py          # Main system controller
-├── smart_logger.py           # Batch image processor
-├── requirements.txt          # Python dependencies
-├── README.md                 # This file
 │
-├── plate_detector.pt         # YOLO plate detection model
-├── character_detector.pt     # YOLO character recognition model
-├── td3_actor.pth            # Trained TD3 weights
-├── NotoSansArabic-Regular.ttf # Arabic font
+├── Core System Files
+│   ├── config.py                  # Centralized configuration
+│   ├── logger.py                  # Logging framework
+│   ├── database.py                # Database operations
+│   ├── simple_blockchain.py       # Blockchain implementation
+│   ├── td3_parking.py            # TD3 inference agent
+│   ├── smart_logger.py           # Batch image processor
+│   └── verify_blockchain.py      # Blockchain validator
 │
-├── parking_system.db         # SQLite database
-├── parking_system.log        # System logs
-├── secure_ledger.json        # Blockchain data
+├── Training Pipeline
+│   ├── prepare_dataset.py         # Prepare plate dataset for YOLO
+│   ├── prepare_character_data.py  # Prepare character dataset for YOLO
+│   ├── train_plates.py           # Train plate detection model
+│   ├── train_characters.py       # Train character recognition model
+│   └── train_simulation.py       # Train TD3 parking agent
 │
-├── stored_plates/            # Saved plate images
-├── test_images/              # Test images for batch processing
-└── dataset/                  # Training datasets
+└── Documentation
+    ├── README.md                 # Main documentation
+    ├── SETUP_INSTRUCTIONS.md     # Complete setup guide
+    ├── TRAINING_GUIDE.md         # Detailed training instructions
+    ├── CITATIONS.md              # Dataset and paper citations
+    ├── PROJECT_STRUCTURE.md      # File organization guide
+    ├── QUICKSTART.md             # Quick reference
+    ├── MIGRATION_GUIDE.md        # v3 → v4.0 upgrade
+    ├── FIXES_SUMMARY.md          # All improvements
+    └── requirements.txt          # Python dependencies
 ```
+
+#### ⚠️ **NOT Included (You Must Provide):**
+```
+├── dataset/                      # Download from EALPR repository
+│   └── ealpr-master/
+│       ├── ealpr vechicles dataset/
+│       ├── ealpr- plates dataset/
+│       └── ealpr- lp characters dataset/
+│
+├── plate_detector.pt             # Train with train_plates.py
+├── character_detector.pt         # Train with train_characters.py
+├── td3_actor.pth                # Train with train_simulation.py
+└── NotoSansArabic-Regular.ttf   # Download from Google Fonts
+```
+
+**📖 See [SETUP_INSTRUCTIONS.md](SETUP_INSTRUCTIONS.md) for complete step-by-step guide.**
 
 ---
 
@@ -222,7 +279,7 @@ SmartParkingSystem/
 1. Driver presses **A** or **B** to indicate destination
 2. **TD3 Agent** analyzes sensor data and selects optimal spot
 3. Camera detects license plate
-4. **YOLO models** perform plate detection and OCR
+4. **YOLOv11 models** perform plate detection and OCR
 5. Entry logged to **database** and **blockchain**
 6. **Entry gate opens** (servo motor activated)
 7. Gate auto-closes after 5 seconds
@@ -431,9 +488,37 @@ stats = ledger.get_statistics()
 - TD3 algorithm by Fujimoto et al.
 - OpenCV community
 - PyTorch team
+- **EALPR Dataset** by Ahmed Ramadan Youssef et al. - Egyptian License Plate Recognition dataset
 
 ---
 
+## 📚 Citations
+
+This project uses the **EALPR Dataset** for training license plate detection and character recognition models.
+
+**Dataset Citation**:
+```bibtex
+@INPROCEEDINGS{9845514,
+  author={Youssef, Ahmed Ramadan and Sayed, Fawzya Ramadan and Ali, Abdelmgeid Ameen},
+  booktitle={2022 7th Asia-Pacific Conference on Intelligent Robot Systems (ACIRS)}, 
+  title={A New Benchmark Dataset for Egyptian License Plate Detection and Recognition}, 
+  year={2022},
+  pages={106-111},
+  doi={10.1109/ACIRS55390.2022.9845514}
+}
+```
+
+**Dataset Repository**: [ahmedramadan96/EALPR](https://github.com/ahmedramadan96/EALPR)
+
+For complete citations and acknowledgments, see [CITATIONS.md](CITATIONS.md).
+
+---
+
+## 📞 Support
+
+For issues and questions:
+- Open an issue on GitHub
+- Contact: z.ahmed2003@gmail.com
 
 
 **Made with ❤️ for smart cities**

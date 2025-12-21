@@ -21,31 +21,38 @@ source venv/bin/activate
 pip install torch torchvision opencv-python ultralytics pillow python-bidi numpy matplotlib
 ```
 
-### 2. Initialize System (1 min)
+### 2. Download and Prepare EALPR Dataset (5 min)
 ```bash
-# Create database
-python -c "import database; database.initialize_db()"
+# Download dataset from: https://github.com/ahmedramadan96/EALPR
+# Extract to: dataset/ealpr-master/
 
-# Verify installation
-python -c "import config; import database; import simple_blockchain; print('✅ All modules loaded')"
+# Prepare datasets for YOLO format
+python prepare_dataset.py
+python prepare_character_data.py
 ```
 
-### 3. (Optional) Train AI (1 min)
+### 3. Train Models (2-4 hours on GPU)
 ```bash
-# Train TD3 agent - creates td3_actor.pth
+# Train license plate detector
+python train_plates.py
+
+# Train character recognizer
+python train_characters.py
+
+# Train TD3 agent (fast - 1 minute)
 python train_simulation.py
 ```
 
-### 4. Run System (1 min)
+### 4. Test System (1 min)
 ```bash
-# Start main system
-python maquette_main.py
+# Initialize database
+python -c "import database; database.initialize_db()"
+
+# Test on sample images
+python smart_logger.py test_images
 ```
 
-**Controls:**
-- Press `A` - Request parking near Building A
-- Press `B` - Request parking near Building B  
-- Press `Q` - Quit
+**Note**: For the full system with hardware (Raspberry Pi), see the main [README.md](README.md).
 
 ---
 
@@ -63,25 +70,30 @@ If you don't have Raspberry Pi or hardware yet:
 
 ## 📁 Required Files
 
-Make sure these files exist in your project folder:
+### ✅ **Python Files** (included in repo):
+- `config.py` - Centralized settings
+- `database.py` - Database operations
+- `simple_blockchain.py` - Blockchain security
+- `td3_parking.py` - AI parking agent
+- `logger.py` - Logging system
+- `smart_logger.py` - Batch image processor
 
-✅ **Python Files** (provided):
-- `config.py` - Settings
-- `database.py` - Database
-- `simple_blockchain.py` - Blockchain
-- `td3_parking.py` - AI agent
-- `train_simulation.py` - Training
-- `maquette_main.py` - Main system
-- `logger.py` - Logging
-- `smart_logger.py` - Batch processor
+### 📦 **Training Scripts** (included in repo):
+- `prepare_dataset.py` - Prepare plate dataset
+- `prepare_character_data.py` - Prepare character dataset
+- `train_plates.py` - Train plate detector
+- `train_characters.py` - Train character detector
+- `train_simulation.py` - Train TD3 agent
 
-⚠️ **Model Files** (you must provide):
-- `plate_detector.pt` - YOLO plate detection model
-- `character_detector.pt` - YOLO character recognition model
-- `NotoSansArabic-Regular.ttf` - Arabic font file
+### ⚠️ **Dataset** (you must download):
+- **EALPR Dataset** from [here](https://github.com/ahmedramadan96/EALPR)
+- Extract to `dataset/` folder
+- See [TRAINING_GUIDE.md](TRAINING_GUIDE.md)
 
-💡 **Optional**:
-- `td3_actor.pth` - Trained TD3 weights (created by training)
+### 🎯 **Generated After Training**:
+- `plate_detector.pt` - Your trained plate detector
+- `character_detector.pt` - Your trained character detector
+- `td3_actor.pth` - Your trained TD3 agent
 
 ---
 
@@ -96,8 +108,11 @@ python -c "import cv2; cap = cv2.VideoCapture(0); print('Camera OK' if cap.isOpe
 ### Missing models?
 ```bash
 # Check for model files
-ls *.pt
-# If missing, download or train your own YOLO models
+ls *.pt *.pth
+
+# If missing, you need to train them!
+# See TRAINING_GUIDE.md for complete instructions
+# Or contact z.ahmed2003@gmail.com
 ```
 
 ### Database errors?

@@ -22,7 +22,7 @@ ENV/
 Thumbs.db
 desktop.ini
 
-# Project-specific: Large Model Files
+# Project-specific: Trained Model Files
 *.pt
 *.pth
 *.onnx
@@ -40,9 +40,18 @@ stored_plates/
 test_images/
 output/
 
-# Project-specific: Large Datasets
+# Project-specific: EALPR Dataset (user must download separately)
 dataset/
 data/
+
+# Project-specific: Training Outputs
+SmartParking_Project/
+runs/
+weights/
+
+# Files removed from repository (user-specific)
+reset_database.py
+maquette_main.py
 
 # Temporary files
 *.tmp
