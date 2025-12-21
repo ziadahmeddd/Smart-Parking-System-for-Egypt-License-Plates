@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Donate](https://img.shields.io/badge/Donate-Support%20This%20Project-yellow.svg)](https://www.paypal.com/paypalme/ziadahmed03)
 
-An intelligent parking management system combining **YOLOv11 computer vision**, **TD3 reinforcement learning**, and **blockchain security** for optimal parking allocation with Arabic license plate recognition.
+An intelligent parking management system combining **YOLOv11 computer vision**, **TD3 reinforcement learning**, and **blockchain security** for optimal parking allocation with Egypt license plate recognition.
 
 ---
 
