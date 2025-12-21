@@ -181,6 +181,18 @@ Process images to test detection and recognition:
 python smart_logger.py test_images
 ```
 
+### View Model Accuracy Metrics
+After training, view detailed accuracy percentages:
+```bash
+python view_metrics.py
+```
+
+This displays:
+- **Plate Detector**: mAP@0.5, precision, recall, F1 score
+- **Character Detector**: mAP@0.5, precision, recall, per-class accuracy
+- **TD3 Agent**: Correctness rate, optimality rate, average reward
+- **Overall System**: Combined readiness score
+
 ### Database Management
 ```bash
 # View all entries
@@ -378,17 +390,36 @@ python -c "import database; database.close_all_connections()"
 
 ## 📈 Performance Metrics
 
-### TD3 Training Results
-- **Episodes**: 10,000
-- **Training Time**: ~60 seconds on modern CPU
-- **Final Average Reward**: ~8.5 (near-optimal)
-- **Success Rate**: 95%+ (avoids occupied spots)
+After training your models, view detailed accuracy percentages:
+```bash
+python view_metrics.py
+```
+
+### Expected Performance Targets
+
+#### Plate Detector (YOLOv11)
+- **mAP@0.5**: >90% (detection accuracy)
+- **Precision**: >85% (correct detections)
+- **Recall**: >85% (plates found)
+- **Inference Speed**: 30+ FPS on Raspberry Pi 4
+
+#### Character Detector (YOLOv11)
+- **mAP@0.5**: >85% (character recognition)
+- **Precision**: >80% (correct characters)
+- **Recall**: >85% (characters found)
+- **Per-Class Accuracy**: 80-95% per Arabic character
+
+#### TD3 Agent
+- **Correctness Rate**: >95% (avoids occupied spots)
+- **Optimality Rate**: >75% (chooses best available spot)
+- **Average Reward**: 5-7/10 (smart decisions)
 
 ### System Performance
-- **Plate Detection**: 30 FPS on Raspberry Pi 4
-- **OCR Accuracy**: 85-90% on Arabic plates
 - **Database Writes**: 100+ transactions/second
 - **Blockchain Adds**: 50+ blocks/second
+- **End-to-End Latency**: <500ms per vehicle
+
+For detailed metrics explanation, see **[METRICS_GUIDE.md](METRICS_GUIDE.md)**.
 
 ---
 

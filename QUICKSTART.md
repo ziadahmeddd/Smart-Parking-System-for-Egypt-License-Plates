@@ -50,6 +50,9 @@ python -c "import database; database.initialize_db()"
 
 # Test on sample images
 python smart_logger.py test_images
+
+# View all model accuracies
+python view_metrics.py
 ```
 
 **Note**: For the full system with hardware (Raspberry Pi), see the main [README.md](README.md).

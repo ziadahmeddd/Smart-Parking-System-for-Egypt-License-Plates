@@ -342,45 +342,136 @@ def train_td3(
     # Final statistics
     print("-" * 60)
     print(f"✅ Training Complete in {duration:.2f} seconds")
-    print(f"Final Average Reward (last 1000): {np.mean(episode_rewards[-1000:]):.2f}")
+    
+    # Calculate performance metrics
+    final_avg_reward = np.mean(episode_rewards[-1000:])
+    initial_avg_reward = np.mean(episode_rewards[:1000])
+    improvement = final_avg_reward - initial_avg_reward
+    
+    print(f"\n📈 Training Progress:")
+    print(f"   Initial Reward (first 1000): {initial_avg_reward:.2f}")
+    print(f"   Final Reward (last 1000)   : {final_avg_reward:.2f}")
+    print(f"   Improvement                : {improvement:.2f} ({(improvement/abs(initial_avg_reward))*100:.1f}%)")
+    
     if critic_losses:
-        print(f"Final Critic Loss: {np.mean(critic_losses[-100:]):.4f}")
+        print(f"\n🧠 Network Performance:")
+        print(f"   Final Critic Loss: {np.mean(critic_losses[-100:]):.4f}")
     if actor_losses:
-        print(f"Final Actor Loss: {np.mean(actor_losses[-100:]):.4f}")
+        print(f"   Final Actor Loss : {np.mean(actor_losses[-100:]):.4f}")
     
     # Save model
     torch.save(agent.actor.state_dict(), config.TD3_MODEL_PATH)
-    print(f"💾 Model saved to: {config.TD3_MODEL_PATH}")
+    print(f"\n💾 Model saved to: {config.TD3_MODEL_PATH}")
     
     # Test the trained model
-    print("\n--- Testing Trained Model ---")
-    test_agent(agent, env)
+    print("\n" + "=" * 60)
+    print("🧪 Testing Trained Model on Sample Scenarios")
+    print("=" * 60)
+    test_results = test_agent(agent, env)
+    
+    return final_avg_reward, test_results
 
-def test_agent(agent: TD3Agent, env: VirtualParkingLot, num_tests: int = 20):
-    """Test the trained agent on sample scenarios."""
+def test_agent(agent: TD3Agent, env: VirtualParkingLot, num_tests: int = 50):
+    """
+    Test the trained agent on sample scenarios and calculate accuracy.
+    
+    Args:
+        agent: Trained TD3 agent
+        env: Virtual parking environment
+        num_tests: Number of test scenarios
+        
+    Returns:
+        Dictionary with test metrics
+    """
     test_rewards = []
+    correct_decisions = 0  # Chose a free spot
+    optimal_decisions = 0   # Chose the best available spot
     
     for i in range(num_tests):
         state = env.reset()
+        sensors = state[:3].astype(int).tolist()
+        dest = "A" if state[3] < 2.0 else "B"
+        dest_loc = state[3]
+        
         action = agent.select_action(state, add_noise=False)
         _, reward, _ = env.step(action)
         test_rewards.append(reward)
         
-        # Decode action for display
+        # Decode action to spot
         if action < config.ACTION_THRESHOLD_LOW:
-            spot = 1
+            chosen_spot = 0
         elif action > config.ACTION_THRESHOLD_HIGH:
-            spot = 3
+            chosen_spot = 2
         else:
-            spot = 2
+            chosen_spot = 1
         
-        sensors = state[:3].astype(int).tolist()
-        dest = "A" if state[3] < 2.0 else "B"
+        # Check if decision was correct (chose a free spot)
+        if sensors[chosen_spot] == 1:
+            correct_decisions += 1
+            
+            # Check if it was optimal (closest free spot)
+            spot_loc = [1.0, 2.0, 3.0][chosen_spot]
+            
+            # Find actual optimal spot
+            best_dist = float('inf')
+            for idx, is_free in enumerate(sensors):
+                if is_free == 1:
+                    dist = abs([1.0, 2.0, 3.0][idx] - dest_loc)
+                    if dist < best_dist:
+                        best_dist = dist
+            
+            current_dist = abs(spot_loc - dest_loc)
+            if current_dist == best_dist:
+                optimal_decisions += 1
         
-        print(f"Test {i+1:2d}: Sensors={sensors}, Dest={dest} -> "
-              f"Spot {spot} (action={action:.2f}, reward={reward:.1f})")
+        # Print first 10 tests
+        if i < 10:
+            spot_id = chosen_spot + 1
+            status = "✅" if sensors[chosen_spot] == 1 else "❌"
+            print(f"Test {i+1:2d}: Sensors={sensors}, Dest={dest} -> "
+                  f"Spot {spot_id} {status} (action={action:.2f}, reward={reward:.1f})")
     
-    print(f"\nAverage Test Reward: {np.mean(test_rewards):.2f}")
+    # Calculate accuracy percentages
+    avg_reward = np.mean(test_rewards)
+    correctness_rate = (correct_decisions / num_tests) * 100
+    optimality_rate = (optimal_decisions / num_tests) * 100
+    
+    print(f"\n{'='*60}")
+    print("📊 TD3 Agent Performance Summary:")
+    print("-" * 60)
+    print(f"   Average Reward      : {avg_reward:.2f}/10")
+    print(f"   Correctness Rate    : {correctness_rate:.1f}%  (Chose free spots)")
+    print(f"   Optimality Rate     : {optimality_rate:.1f}%  (Chose best spots)")
+    print(f"   Tests Run           : {num_tests}")
+    print("-" * 60)
+    
+    # Performance grade
+    print("\n💡 Agent Performance Grade:")
+    if correctness_rate >= 95 and optimality_rate >= 80:
+        print("   ✅ EXCELLENT - Agent makes smart decisions!")
+    elif correctness_rate >= 90 and optimality_rate >= 70:
+        print("   ✅ GOOD - Agent performs well")
+    elif correctness_rate >= 80:
+        print("   ⚠️  FAIR - Consider training longer")
+    else:
+        print("   ❌ POOR - Retrain with more episodes")
+    
+    # Save metrics
+    metrics_dict = {
+        "model": "td3_parking_agent",
+        "average_reward": f"{avg_reward:.2f}",
+        "correctness_rate": f"{correctness_rate:.1f}%",
+        "optimality_rate": f"{optimality_rate:.1f}%",
+        "tests_run": num_tests
+    }
+    
+    with open("td3_agent_metrics.json", "w") as f:
+        json.dump(metrics_dict, f, indent=4)
+    
+    print(f"\n📊 Metrics saved to: td3_agent_metrics.json")
+    print("=" * 60)
+    
+    return metrics_dict
 
 if __name__ == "__main__":
     train_td3(

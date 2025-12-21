@@ -46,6 +46,11 @@ data/
 
 # Project-specific: Training Outputs
 SmartParking_Project/
+runs/
+weights/
+
+# Training metrics (generated files)
+*_metrics.json
 
 # Files removed from repository (user-specific)
 reset_database.py

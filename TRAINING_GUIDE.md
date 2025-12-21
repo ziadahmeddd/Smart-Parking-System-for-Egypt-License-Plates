@@ -152,6 +152,18 @@ python td3_parking.py
 python smart_logger.py test_images
 ```
 
+### View All Metrics at Once
+```bash
+# Display all model accuracies in one view
+python view_metrics.py
+```
+
+This shows:
+- Plate detector accuracy (mAP@0.5, precision, recall)
+- Character detector accuracy (mAP@0.5, precision, recall)
+- TD3 agent performance (correctness %, optimality %)
+- Overall system readiness score
+
 ---
 
 ## 📊 **Expected Results**
