@@ -4,6 +4,23 @@ This project uses datasets and builds upon the work of other researchers. We are
 
 ---
 
+## 🚗 Citing This Project
+
+If you use this Smart Parking System in your research or project, please cite it as:
+
+```bibtex
+@software{smartparkingsystem2025,
+  author = {Ziad Ahmed},
+  title = {Smart Parking System: Egyptian License Plate Recognition with RL-based Allocation},
+  year = {2025},
+  publisher = {GitHub},
+  url = {https://github.com/ziadahmeddd/Smart-Parking-System-for-Egypt-License-Plates},
+  note = {A comprehensive parking management system using YOLOv11 for Egyptian license plate recognition and TD3 reinforcement learning for optimal parking allocation}
+}
+```
+
+---
+
 ## 📚 Dataset Citations
 
 ### EALPR Dataset - Egyptian License Plate Recognition
@@ -72,14 +89,70 @@ Object detection framework used for license plate and character detection:
 }
 ```
 
+### PyTorch
+Deep learning framework used throughout the project:
+
+**Repository**: [pytorch/pytorch](https://github.com/pytorch/pytorch)
+
+**Citation**:
+```bibtex
+@inproceedings{pytorch2019,
+  title={PyTorch: An Imperative Style, High-Performance Deep Learning Library},
+  author={Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and Chanan, Gregory and Killeen, Trevor and Lin, Zeming and Gimelshein, Natalia and Antiga, Luca and Desmaison, Alban and Kopf, Andreas and Yang, Edward and DeVito, Zachary and Raison, Martin and Tejani, Alykhan and Chilamkurthy, Sasank and Steiner, Benoit and Fang, Lu and Bai, Junjie and Chintala, Soumith},
+  booktitle={Advances in Neural Information Processing Systems 32},
+  pages={8024--8035},
+  year={2019},
+  publisher={Curran Associates, Inc.},
+  url={http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf}
+}
+```
+
+### Stable-Baselines3
+Reinforcement learning library used for TD3 implementation:
+
+**Repository**: [DLR-RM/stable-baselines3](https://github.com/DLR-RM/stable-baselines3)
+
+**Citation**:
+```bibtex
+@article{stable-baselines3,
+  author  = {Antonin Raffin and Ashley Hill and Adam Gleave and Anssi Kanervisto and Maximilian Ernestus and Noah Dormann},
+  title   = {Stable-Baselines3: Reliable Reinforcement Learning Implementations},
+  journal = {Journal of Machine Learning Research},
+  year    = {2021},
+  volume  = {22},
+  number  = {268},
+  pages   = {1-8},
+  url     = {http://jmlr.org/papers/v22/20-1364.html}
+}
+```
+
+### OpenCV
+Computer vision library used for image processing:
+
+**Repository**: [opencv/opencv](https://github.com/opencv/opencv)
+
+**Citation**:
+```bibtex
+@article{opencv_library,
+  author = {Bradski, G.},
+  citeulike-article-id = {2236121},
+  journal = {Dr. Dobb's Journal of Software Tools},
+  keywords = {bibtex-import},
+  title = {{The OpenCV Library}},
+  year = {2000}
+}
+```
+
 ---
 
 ## 🙏 Acknowledgments
 
 We thank:
 - **Ahmed Ramadan Youssef**, **Fawzya Ramadan Sayed**, and **Abdelmgeid Ameen Ali** for creating and sharing the EALPR dataset
+- **Scott Fujimoto**, **Herke Hoof**, and **David Meger** for the TD3 algorithm
 - The **Ultralytics** team for the YOLOv11 framework
 - The **PyTorch** team for the deep learning framework
+- The **Stable-Baselines3** team for reliable RL implementations
 - The **OpenCV** community for computer vision tools
 
 ---
@@ -87,7 +160,23 @@ We thank:
 ## 📄 License Compatibility
 
 This project respects the licenses of all datasets and libraries used:
-- EALPR Dataset: Please refer to the [original repository](https://github.com/ahmedramadan96/EALPR) for license terms
-- Our code: MIT License (see [LICENSE](LICENSE) file)
+
+### This Project
+- **Our code**: MIT License (see [LICENSE](LICENSE) file)
+
+### Datasets
+- **EALPR Dataset**: Please refer to the [original repository](https://github.com/ahmedramadan96/EALPR) for license terms
+
+### Dependencies
+- **Ultralytics YOLOv11**: AGPL-3.0 License
+  - ⚠️ **Important**: YOLOv11 uses AGPL-3.0, which requires that any modifications to the library and any software that incorporates it must also be open-sourced under AGPL-3.0 if distributed. For commercial use, consider Ultralytics' commercial licensing options.
+- **PyTorch**: BSD-3-Clause License
+- **Stable-Baselines3**: MIT License
+- **OpenCV**: Apache 2.0 License
+
+**License Compatibility Notes**:
+- Most dependencies (PyTorch, Stable-Baselines3, OpenCV) use permissive licenses compatible with MIT
+- The AGPL-3.0 license of Ultralytics YOLOv11 is the most restrictive component and may affect distribution rights
+- Users should review the AGPL-3.0 terms if planning commercial deployment
 
 If you use this project, please cite both our work and the EALPR dataset.
