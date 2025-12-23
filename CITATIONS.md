@@ -88,6 +88,6 @@ We thank:
 
 This project respects the licenses of all datasets and libraries used:
 - EALPR Dataset: Please refer to the [original repository](https://github.com/ahmedramadan96/EALPR) for license terms
-- Our code: [Specify your license here]
+- Our code: MIT License (see [LICENSE](LICENSE) file)
 
 If you use this project, please cite both our work and the EALPR dataset.
